@@ -1,7 +1,10 @@
 * {
   box-sizing: border-box;
 }
-
+.container {
+  margin-left: 15%;
+  margin-right: 15%;
+}
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -11,6 +14,9 @@
   color-scheme: light dark;
   color: rgba(58, 58, 58, 0.87);
   background-color: #ffffff;
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
+  background-image: url('../public/background.jpg');
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

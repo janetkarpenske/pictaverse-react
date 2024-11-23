@@ -33,7 +33,6 @@ function MainNavigation() {
               Signin
             </NavLink>
             </Button>
-            
           </li>
           <li>
             <Button variant='text'>
@@ -46,7 +45,30 @@ function MainNavigation() {
               Register
             </NavLink>
             </Button>
-            
+          </li>
+          <li>
+            <Button variant='text'>
+            <NavLink
+              to="/about"
+              className={({isActive}) => (
+                isActive ? classes.active : undefined
+              )}
+            >
+              About
+            </NavLink>
+            </Button>
+          </li>
+          <li>
+            <Button variant='text'>
+            <NavLink
+              to="/dashboard"
+              className={({isActive}) => (
+                isActive ? classes.active : undefined
+              )}
+            >
+              Dashboard
+            </NavLink>
+            </Button>
           </li>
         </ul>
       </nav>
