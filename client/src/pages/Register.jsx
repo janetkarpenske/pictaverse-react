@@ -1,5 +1,8 @@
 //React Imports
 import { useRef, useState } from "react";
+import { auth } from '../firebase/config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from "react-router-dom";
 
 //Material UI Imports
 import TextField from '@mui/material/TextField';
@@ -16,19 +19,37 @@ import { Button } from '@mui/material';
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const navigate = useNavigate();
+
     const email = useRef();
     const password = useRef();
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     console.log("Submitted");
     event.preventDefault();
 
     const enteredEmail = email.current.value;
     const enteredPassword = password.current.value;
     console.log(enteredEmail, enteredPassword)
-    //the downside with refs is to clear it after ward it is not recommended to directly
-    //manipulate the DOM
-    //example: email = '';
+    registerNewUser();
+  }
+
+  const registerNewUser = async() => {
+    try{
+      const response = await createUserWithEmailAndPassword(
+        auth, email.current.value, password.current.value
+      )
+      if(!response) {
+        throw new Error('Sorry, something went wrong');
+      }
+      else {
+        //clear form data here
+        navigate('/signin');
+      }
+    }
+    catch(error) {
+        console.log(error);
+    }
   }
 
      return (
@@ -41,7 +62,7 @@ export default function Register() {
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                     <TextField
                         id="standard-basic"
-                        label="Username"
+                        label="Email"
                         variant="standard"
                         color="primary"
                         name="email"

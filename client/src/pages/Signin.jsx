@@ -1,6 +1,9 @@
 //React Imports
 import { useState } from 'react';
 import { useRef } from "react";
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase/config';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 //Material UI Imports
 import TextField from '@mui/material/TextField';
@@ -17,20 +20,36 @@ import { Button } from '@mui/material';
 export default function Signin() {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const navigate = useNavigate();
 
     const email = useRef();
     const password = useRef();
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     console.log("Signing in...");
     event.preventDefault();
 
     const enteredEmail = email.current.value;
     const enteredPassword = password.current.value;
     console.log(enteredEmail, enteredPassword)
-    //the downside with refs is to clear it after ward it is not recommended to directly
-    //manipulate the DOM
-    //example: email = '';
+    signInUser();
+  }
+
+  const signInUser = async() => {
+    try{
+      const response = await signInWithEmailAndPassword(
+        auth, email.current.value, password.current.value
+      )
+      if(!response) {
+        throw new Error('Sorry, something went wrong');
+      }
+      else {
+        //clear form
+        navigate('/dashboard');
+      }
+    }
+    catch(error) {
+    }
   }
 
     return (

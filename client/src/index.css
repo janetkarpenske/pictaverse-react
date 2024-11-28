@@ -5,6 +5,12 @@
   margin-left: 15%;
   margin-right: 15%;
 }
+.container-narrow {
+  margin-left: 25%;
+  margin-right: 25%;
+  text-align: justify;
+  text-justify: inter-word;
+}
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -16,7 +22,7 @@
   background-color: #ffffff;
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover;
-  background-image: url('../public/background.jpg');
+  background-image: url('../public/background-3.jpg');
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

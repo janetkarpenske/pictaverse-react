@@ -1,10 +1,34 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/config';
 import classes from './styles/MainNavigation.module.css';
 import Button from '@mui/material/Button';
 import { IconButton } from '@mui/material';
 import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
 
 function MainNavigation() {
+  const navigate = useNavigate();
+  let currentUser;
+
+  const handleSignOut = () => {
+    signOut(auth);
+    console.log('Signed out')
+    navigate("/");
+  };
+
+  onAuthStateChanged (auth, (user) => {
+    currentUser = user;
+    console.log("current user: ", currentUser);
+    //userStoreRef.setUser(user);
+    if(user != null) {
+      //getUserPets(user.uid);
+      //getUserProfile(user.uid);
+    }
+    else {
+      //need to clear user data and pet data from stores
+    };
+  })
+
   return (
     <header className={classes.header}>
       <nav>
@@ -68,6 +92,11 @@ function MainNavigation() {
             >
               Dashboard
             </NavLink>
+            </Button>
+          </li>
+          <li>
+            <Button variant='text' onClick={handleSignOut}>
+              Signout
             </Button>
           </li>
         </ul>

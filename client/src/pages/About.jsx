@@ -1,7 +1,7 @@
 export default function AboutPage() {
 
     return (
-        <div className="container">
+        <div className="container-narrow">
             <h1>About</h1>
 
             <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Bibendum pulvinar pellentesque odio praesent hac ex; tempor conubia et. Quam himenaeos mi id justo, congue duis vivamus. Dignissim fusce curabitur aenean phasellus class rhoncus consectetur. Neque sodales netus habitant mollis eget. Magnis ipsum interdum maecenas natoque quisque magnis. Fusce sem tristique vel augue eleifend id quis?</p>
