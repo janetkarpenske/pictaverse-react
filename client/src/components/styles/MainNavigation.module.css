@@ -11,13 +11,15 @@
     gap: 1rem;
   }
   
-  .list a {
+  .list a,
+  .list button {
     text-decoration: none;
     color: var(--color-primary-800);
   }
   
   .list a:hover,
-  .list a.active {
+  .list a.active,
+  .list button:hover,
+  .list button:active {
     color: var(--color-primary-900);
   }
-  

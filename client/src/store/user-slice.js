@@ -3,14 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        signedInUser: null
+        signedInUserEmail: null,
+        signedInUserUID: null
     },
     reducers: {
         setSignedInUser(state, action) {
-            const user = action.payload;
+            const userEmail = action.payload?.userEmail ?? null;
+            const userUID = action.payload?.userUID ?? null;
 
             //because we are using redux-toolkit we can modify state directly while keeping it immutable
-            state.signedInUser = !state.cartIsVisible;
+            state.signedInUserEmail = userEmail;
+            state.signedInUserUID = userUID;
         }
     }
 })

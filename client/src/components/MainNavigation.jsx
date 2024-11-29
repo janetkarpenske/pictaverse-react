@@ -4,28 +4,43 @@ import { auth } from '../firebase/config';
 import classes from './styles/MainNavigation.module.css';
 import Button from '@mui/material/Button';
 import { IconButton } from '@mui/material';
-import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
+import PublicIcon from '@mui/icons-material/Public';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../store/user-slice';
 
 function MainNavigation() {
   const navigate = useNavigate();
-  let currentUser;
+  const dispatch = useDispatch();
+
+  let currentUser = useSelector((state => state.user.signedInUserEmail));
 
   const handleSignOut = () => {
     signOut(auth);
-    console.log('Signed out')
     navigate("/");
   };
 
   onAuthStateChanged (auth, (user) => {
-    currentUser = user;
     console.log("current user: ", currentUser);
-    //userStoreRef.setUser(user);
+
+    let payload;
+    if(user !== null)
+      {
+        payload = {
+          userEmail: user.email,
+          userUID: user.uid
+        }
+      }
+    else {
+      payload = null;
+    }
+
+    dispatch(userActions.setSignedInUser(payload));
+
     if(user != null) {
-      //getUserPets(user.uid);
-      //getUserProfile(user.uid);
+      //load other immediate data needed here
     }
     else {
-      //need to clear user data and pet data from stores
+
     };
   })
 
@@ -42,11 +57,11 @@ function MainNavigation() {
               )}
               end
             >
-              <PetsRoundedIcon fontSize='inherit'/>
+              <PublicIcon fontSize='large'/>
             </NavLink>
             </IconButton>
           </li>
-          <li>
+          {!currentUser && <li>
             <Button variant='text'>
             <NavLink
               to="/signin"
@@ -57,8 +72,8 @@ function MainNavigation() {
               Signin
             </NavLink>
             </Button>
-          </li>
-          <li>
+          </li>}
+          {!currentUser && <li>
             <Button variant='text'>
             <NavLink
               to="/register"
@@ -69,7 +84,7 @@ function MainNavigation() {
               Register
             </NavLink>
             </Button>
-          </li>
+          </li>}
           <li>
             <Button variant='text'>
             <NavLink
@@ -82,7 +97,7 @@ function MainNavigation() {
             </NavLink>
             </Button>
           </li>
-          <li>
+          {currentUser && <li>
             <Button variant='text'>
             <NavLink
               to="/dashboard"
@@ -93,12 +108,12 @@ function MainNavigation() {
               Dashboard
             </NavLink>
             </Button>
-          </li>
-          <li>
+          </li>}
+          {currentUser && <li>
             <Button variant='text' onClick={handleSignOut}>
               Signout
             </Button>
-          </li>
+          </li>}
         </ul>
       </nav>
     </header>
