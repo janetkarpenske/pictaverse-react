@@ -1,6 +1,13 @@
 # react-pictaverse
 
-Social media site that utilizes Geolocation and Mapbox so users can create posts and tag their favorite/recommended vacation adn travel spots. Utilizes Redux and Redux-Toolkit for state-management, React Router, Material UI for stylization, Firebase for authentication/authorization and databse storage and Mapbox for geolocation and map usage.
+Social media site that utilizes Geolocation and Mapbox so users can create posts and tag their favorite/recommended vacation and travel spots.
+
+Utilizes: 
+- Redux and Redux-Toolkit for state-management
+- React Router
+- Material UI for stylization
+- Firebase for authentication/authorization and database storage
+- Mapbox for geolocation and map usage
 
 ## Project Setup
 Navigate to project's client/ directory and create a .env file with the following contents:
