@@ -21,16 +21,13 @@ export default function Register() {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const navigate = useNavigate();
 
+    const firstName = useRef();
+    const lastName = useRef();
     const email = useRef();
     const password = useRef();
 
   const handleSubmit = (event) => {
-    console.log("Submitted");
     event.preventDefault();
-
-    const enteredEmail = email.current.value;
-    const enteredPassword = password.current.value;
-    console.log(enteredEmail, enteredPassword)
     registerNewUser();
   }
 
@@ -58,7 +55,29 @@ export default function Register() {
 
             <br/>
             <form onSubmit={handleSubmit}>
-            <h2>Register</h2>
+            <h2>Create an Account</h2>
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <TextField
+                        id="standard-basic"
+                        label="First Name"
+                        variant="standard"
+                        color="primary"
+                        name="firstName"
+                        required
+                        inputRef={firstName}/>
+                </FormControl>
+                <br />
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <TextField
+                        id="standard-basic"
+                        label="Last Name"
+                        variant="standard"
+                        color="primary"
+                        name="lastName"
+                        required
+                        inputRef={lastName}/>
+                </FormControl>
+                <br />
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                     <TextField
                         id="standard-basic"
@@ -66,6 +85,7 @@ export default function Register() {
                         variant="standard"
                         color="primary"
                         name="email"
+                        required
                         inputRef={email}/>
                 </FormControl>
                 <br />
@@ -89,6 +109,7 @@ export default function Register() {
                         }
                     label="Password"
                     name="password"
+                    required
                     inputRef={password}
                     />
                 </FormControl>
