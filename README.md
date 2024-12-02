@@ -23,6 +23,10 @@ Still within project's client directory, run npm run start.
 npm run start
 ```
 
+### Server-side Setup:
+
+Coming soon!
+
 ### Compile and Minify for Production
 
 ```sh
