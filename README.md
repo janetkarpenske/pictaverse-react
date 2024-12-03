@@ -7,7 +7,8 @@ Utilizes:
 - React Router
 - Material UI for stylization
 - Firebase for authentication/authorization and database storage
-- Mapbox for geolocation and map usage
+- Mapbox for map usage
+- OpenWeather - for geocoding and reverse geocoding
 
 ## Project Setup
 Navigate to project's client/ directory and create a .env file with the following contents:
@@ -15,6 +16,7 @@ Navigate to project's client/ directory and create a .env file with the followin
 REACT_APP_FIREBASE_API_KEY=
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
 REACT_APP_FIREBASE_APP_ID=
+REACT_APP_OPEN_WEATHER_API_KEY=
 ```
 Reach out to repo owner for access to required keys.
 
