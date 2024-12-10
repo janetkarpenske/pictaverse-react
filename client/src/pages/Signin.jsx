@@ -18,12 +18,12 @@ import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 
 export default function Signin() {
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const navigate = useNavigate();
 
-    const email = useRef();
-    const password = useRef();
+  const email = useRef();
+  const password = useRef();
 
   const handleSubmit = (event) => {
     console.log("Signing in...");
@@ -35,12 +35,12 @@ export default function Signin() {
     signInUser();
   }
 
-  const signInUser = async() => {
-    try{
+  const signInUser = async () => {
+    try {
       const response = await signInWithEmailAndPassword(
         auth, email.current.value, password.current.value
       )
-      if(!response) {
+      if (!response) {
         throw new Error('Sorry, something went wrong');
       }
       else {
@@ -48,54 +48,54 @@ export default function Signin() {
         navigate('/dashboard');
       }
     }
-    catch(error) {
+    catch (error) {
     }
   }
 
-    return (
-        <>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center", marginTop: "8%"}}>
-            <form>
-                <h2>Sign In</h2>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                    <TextField
-                        id="standard-basic"
-                        label="Username"
-                        variant="standard" 
-                        color="primary"
-                        name="email"
-                        inputRef={email}/>
-                </FormControl>
-                <br />
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label={
-                                    showPassword ? 'hide the password' : 'display the password'
-                                }
-                                onClick={handleClickShowPassword}
-                                edge="end"
-                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                        }
-                    label="Password"
-                    name="password"
-                    inputRef={password}
-                    />
-                </FormControl>
-                <br/>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                    <Button onClick={handleSubmit} variant='outlined'>Sign In</Button>
-                </FormControl>
-            </form>
-        </Box>
-        </>
-    )
+  return (
+    <>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center", marginTop: "8%" }}>
+        <form>
+          <h2>Sign In</h2>
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+            <TextField
+              id="standard-basic"
+              label="Username"
+              variant="standard"
+              color="primary"
+              name="email"
+              inputRef={email} />
+          </FormControl>
+          <br />
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label={
+                      showPassword ? 'hide the password' : 'display the password'
+                    }
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+              name="password"
+              inputRef={password}
+            />
+          </FormControl>
+          <br />
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+            <Button onClick={handleSubmit} variant='outlined'>Sign In</Button>
+          </FormControl>
+        </form>
+      </Box>
+    </>
+  )
 }

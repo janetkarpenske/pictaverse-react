@@ -19,24 +19,23 @@ function MainNavigation() {
     navigate("/");
   };
 
-  onAuthStateChanged (auth, (user) => {
+  onAuthStateChanged(auth, (user) => {
     console.log("current user: ", currentUser);
 
     let payload;
-    if(user !== null)
-      {
-        payload = {
-          userEmail: user.email,
-          userUID: user.uid
-        }
+    if (user !== null) {
+      payload = {
+        userEmail: user.email,
+        userUID: user.uid
       }
+    }
     else {
       payload = null;
     }
 
     dispatch(userActions.setSignedInUser(payload));
 
-    if(user != null) {
+    if (user != null) {
       //load other immediate data needed here
     }
     else {
@@ -49,64 +48,64 @@ function MainNavigation() {
       <nav>
         <ul className={classes.list}>
           <li>
-          <IconButton variant='text'>
-            <NavLink
-              to="/"
-              className={({isActive}) => (
-                isActive ? classes.active : undefined
-              )}
-              end
-            >
-              <PublicIcon fontSize='large'/>
-            </NavLink>
+            <IconButton variant='text'>
+              <NavLink
+                to="/"
+                className={({ isActive }) => (
+                  isActive ? classes.active : undefined
+                )}
+                end
+              >
+                <PublicIcon fontSize='large' />
+              </NavLink>
             </IconButton>
           </li>
           {!currentUser && <li>
             <Button variant='text'>
-            <NavLink
-              to="/signin"
-              className={({isActive}) => (
-                isActive ? classes.active : undefined
-              )}
-            >
-              Signin
-            </NavLink>
+              <NavLink
+                to="/signin"
+                className={({ isActive }) => (
+                  isActive ? classes.active : undefined
+                )}
+              >
+                Signin
+              </NavLink>
             </Button>
           </li>}
           {!currentUser && <li>
             <Button variant='text'>
-            <NavLink
-              to="/register"
-              className={({isActive}) => (
-                isActive ? classes.active : undefined
-              )}
-            >
-              Register
-            </NavLink>
+              <NavLink
+                to="/register"
+                className={({ isActive }) => (
+                  isActive ? classes.active : undefined
+                )}
+              >
+                Register
+              </NavLink>
             </Button>
           </li>}
           <li>
             <Button variant='text'>
-            <NavLink
-              to="/about"
-              className={({isActive}) => (
-                isActive ? classes.active : undefined
-              )}
-            >
-              About
-            </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) => (
+                  isActive ? classes.active : undefined
+                )}
+              >
+                About
+              </NavLink>
             </Button>
           </li>
           {currentUser && <li>
             <Button variant='text'>
-            <NavLink
-              to="/dashboard"
-              className={({isActive}) => (
-                isActive ? classes.active : undefined
-              )}
-            >
-              Dashboard
-            </NavLink>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) => (
+                  isActive ? classes.active : undefined
+                )}
+              >
+                Dashboard
+              </NavLink>
             </Button>
           </li>}
           {currentUser && <li>
