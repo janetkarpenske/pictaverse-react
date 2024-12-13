@@ -1,10 +1,10 @@
 * {
   box-sizing: border-box;
 }
-.container {
-  margin-left: 15%;
-  margin-right: 15%;
-}
+/* .container {
+  margin-left: 5%;
+  margin-right: 5%;
+} */
 .container-narrow {
   margin-top: 5%;
   margin-left: 25%;
@@ -21,9 +21,7 @@
   color-scheme: light dark;
   color: rgba(0, 0, 0, 0.87);
   background-color: #ffffff;
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover;
-  background-image: url('../public/background-3.jpg');
+
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -35,7 +33,7 @@
   --color-gray-200: #dddbd8;
   --color-gray-300: #ccc9c6;
   --color-gray-400: #aeaba7;
-  --color-gray-500: #8a8784;
+  --color-gray-500: #585858;
   --color-gray-600: #000000;
   --color-gray-700: #000000;
   --color-gray-800: #000000;
@@ -46,8 +44,8 @@
   --color-primary-300: #afe5fa;
   --color-primary-400: #97cefb;
   --color-primary-500: #7ccbff;
-  --color-primary-600: #629ef9;
-  --color-primary-700: #4da7fb;
+  --color-primary-600: #5ca0df;
+  --color-primary-700: #288ae6;
   --color-primary-800: #000000;
   --color-primary-900: hsl(167, 42%, 42%);
 }

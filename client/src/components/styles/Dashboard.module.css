@@ -1,0 +1,6 @@
+.buttonBanner {
+    width: 100%;
+    padding-left: 2rem;
+    display: flex;
+    justify-content: space-between;
+}

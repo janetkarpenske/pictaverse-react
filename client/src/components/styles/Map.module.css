@@ -1,0 +1,82 @@
+.mapContainer {
+    background-color: rgb(166, 184, 204);
+    top: 0;
+    right: 0;
+    margin-left: 29%;
+    width: 70%;
+    position: relative;
+    border-radius: 8px;
+}
+
+.postContainer {
+    float: left;
+    width: 28%;
+    margin-left: .5%;
+    height: 83vh;
+    color: rgb(0, 0, 0);
+    border: solid 1px rgb(175, 180, 190);
+    border-radius: 8px;
+    overflow-y: scroll;
+}
+
+.postContainer::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.712);
+    background-color: #dfdfe0;
+  }
+  .postContainer::-webkit-scrollbar{
+    width: 8px;
+    background-color: #ffffff;
+  }
+  .postContainer::-webkit-scrollbar-thumb{
+    background-color: #000000;
+    border: 2px solid #555555;
+  }
+
+.postCard {
+    border: solid 1px grey;
+    border-radius: 5px;
+    margin: 10px;
+    width: auto;
+    height: 200px
+}
+
+.postCard:hover {
+    border: solid 2px rgb(61, 61, 61);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.postCard h1 {
+    font-size: 22px;
+    text-align: center;
+    color: var(--color-gray-500);
+    margin-top: 5px;
+}
+
+.postCard h2 {
+    font-size: 14px;
+    text-align: center;
+    color: var(--color-primary-600);
+}
+
+.postCard .postImg {
+    width: 30%;
+    height: var(width);
+}
+
+.postCard .postDetails {
+    float: right;
+    top: 0;
+    right: 0;
+    margin-left: 29%;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+}
+.postCard p {
+
+}
+
+.mapInfoWindow{
+    width: 500px;
+}

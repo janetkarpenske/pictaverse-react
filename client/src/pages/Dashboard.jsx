@@ -1,13 +1,26 @@
-//import Map from "../components/Map";
-import NewPostForm from "./../components/NewPostForm";
+import Map from "../components/Map";
+import classes from "./../components/styles/Dashboard.module.css";
+import { useNavigate } from 'react-router-dom';
+import { Button } from "@mui/material";
 
 export default function Dashboard() {
     console.log("Rendered dashboard");
+    const navigate = useNavigate();
+
+    const handleNavigate = (e) => {
+        navigate("/newPost");
+    }
+
     return (
         <div className="container">
-            <h1>User Dashboard</h1>
-            {/* <Map /> */}
-            <NewPostForm />
+            <div className={classes.buttonBanner}>
+                <Button variant='outlined' onClick={handleNavigate}>
+                    New Post
+                </Button>
+            </div>
+
+            <br />
+            <Map />
         </div>
     )
 }

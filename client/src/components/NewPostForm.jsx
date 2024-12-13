@@ -1,7 +1,7 @@
 //React Imports
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 //firebase Imports
 import { collection, addDoc } from 'firebase/firestore';
@@ -22,6 +22,7 @@ export default function NewPostForm() {
     const [isDisabled, setIsDisabled] = useState(false);
     const [country, setCountry] = useState('US');
     let userUID = useSelector((state => state.user.signedInUserUID));
+    const navigate = useNavigate();
 
     const handleCreatePost = (event) => {
         event.preventDefault();
@@ -85,6 +86,7 @@ export default function NewPostForm() {
             console.log('An error occurred creating post in Firestore');
         }
         resetForm();
+        navigate("/dashboard");
     }
 
     return (

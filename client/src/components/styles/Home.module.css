@@ -28,12 +28,13 @@
   margin-top: 10px;
   font-size: 32px;
   font-weight: 700;
-  color: #971c6e;
+  color: var(--color-primary-700);
 }
 
 .homeContent p {
   font-size: 16px;
   margin: 20px 0 40px;
+  text-align: justify;
 }
 
 .homeContent .btn-box {
@@ -50,8 +51,8 @@
   align-items: center;
   width: 150px;
   height: 100%;
-  background: #02c4aa;
-  border: 2px solid #02c4aa;
+  background: var(--color-primary-700);
+  border: 2px solid var(--color-primary-700);
   border-radius: 8px;
   font-size: 19px;
   color: #ffffff;
@@ -64,12 +65,12 @@
 }
 
 .btnBox a:hover {
-  color: #02c4aa;
+  color: var(--color-primary-700);
 }
 
 .btnBox a:nth-child(2) {
   background: transparent;
-  color: #02c4aa;
+  color: var(--color-primary-700);
 }
 
 .btnBox a:nth-child(2):hover {
@@ -77,7 +78,7 @@
 }
 
 .btnBox a:nth-child(2)::before {
-  background: #02c4aa;
+  background: var(--color-primary-700);
 }
 
 .btnBox a::before {

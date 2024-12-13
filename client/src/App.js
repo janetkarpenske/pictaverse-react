@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import HomePage from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import AboutPage from './pages/About';
+import NewPostForm from './components/NewPostForm';
 
 const router = createBrowserRouter([
   { 
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: 'about',
         element: <AboutPage />
+      },
+      {
+        path: 'newPost',
+        element: <NewPostForm />
       }
     ]
   }
