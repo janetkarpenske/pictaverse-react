@@ -20,8 +20,6 @@ function MainNavigation() {
   };
 
   onAuthStateChanged(auth, (user) => {
-    console.log("current user: ", currentUser);
-
     let payload;
     if (user !== null) {
       payload = {

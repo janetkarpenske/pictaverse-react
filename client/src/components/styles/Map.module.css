@@ -41,9 +41,9 @@
 }
 
 .postCard:hover {
-    border: solid 2px rgb(61, 61, 61);
     border-radius: 5px;
     cursor: pointer;
+    box-shadow: 6px 2px 2px rgb(221, 221, 221);
 }
 
 .postCard h1 {
@@ -72,9 +72,6 @@
     width: 60%;
     position: relative;
     border-radius: 8px;
-}
-.postCard p {
-
 }
 
 .mapInfoWindow{

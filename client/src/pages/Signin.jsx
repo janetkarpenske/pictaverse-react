@@ -26,12 +26,10 @@ export default function Signin() {
   const password = useRef();
 
   const handleSubmit = (event) => {
-    console.log("Signing in...");
     event.preventDefault();
 
     const enteredEmail = email.current.value;
     const enteredPassword = password.current.value;
-    console.log(enteredEmail, enteredPassword)
     signInUser();
   }
 

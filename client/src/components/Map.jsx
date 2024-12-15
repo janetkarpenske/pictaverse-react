@@ -34,7 +34,6 @@ export default function Map() {
             let userPostsArr = [];
 
             const querySnapshot = await getDocs(q);
-            console.log("Query snapshot: ", querySnapshot);
             querySnapshot?.forEach((doc) => {
                 const post = {
                     upCity: doc.data().upCity,
@@ -54,18 +53,15 @@ export default function Map() {
         }
 
         getPosts();
-        console.log("Here...", userPosts);
     }, [])
-
-    console.log("Map selected marker is: ", mapSelectedMarker);
 
     return (
         <>
             <div className={classes.postContainer}>
                 {userPosts && userPosts.length > 0 && (
                     userPosts.map((post) => (
-                        <div className={classes.postCard} onClick={() => setMapSelectedMarker(post)}>
-                            <h1 key={post.upID}>{post.upPostName}</h1>
+                        <div key={post.upID} className={classes.postCard} onClick={() => setMapSelectedMarker(post)}>
+                            <h1 >{post.upPostName}</h1>
                             <h2>{post.upCity}, {post.upState}</h2>
                             <br />
                             <div className={classes.postImg}>
@@ -83,7 +79,6 @@ export default function Map() {
                 {!isLoadingPosts && userPosts.length > 0 && <LoadScript googleMapsApiKey="" >
                     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} defaultOptions={{styles: mapStyle}}  >
                         {userPosts.map((post) => (
-                            <>
                             <Marker key={post.upID}
                                 icon={customIcon}
                                 position={{
@@ -94,7 +89,6 @@ export default function Map() {
                                     setMapSelectedMarker(post);
                                 }}
                             />
-                        </>
                         ))}
                         {mapSelectedMarker && (
                             <InfoWindow
