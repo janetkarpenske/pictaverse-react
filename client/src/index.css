@@ -2,16 +2,15 @@
 * {
   box-sizing: border-box;
 }
-/* .container {
-  margin-left: 5%;
-  margin-right: 5%;
-} */
 .container-narrow {
   margin-top: 5%;
-  margin-left: 25%;
-  margin-right: 25%;
+  margin-left: 20%;
+  margin-right: 20%;
   text-align: justify;
   text-justify: inter-word;
+  border: #d3eaf3 solid 2px;
+  padding: 60px;
+  border-radius: 20px 0px 20px 0px;
 }
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
