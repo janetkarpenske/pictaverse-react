@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
 }
@@ -46,7 +47,7 @@
   --color-primary-500: #7ccbff;
   --color-primary-600: #5ca0df;
   --color-primary-700: #288ae6;
-  --color-primary-800: #000000;
+  --color-primary-800: #1a72c5;
   --color-primary-900: hsl(167, 42%, 42%);
 }
 

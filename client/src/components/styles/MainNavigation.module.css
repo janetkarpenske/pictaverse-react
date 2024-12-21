@@ -14,7 +14,7 @@
   .list a,
   .list button {
     text-decoration: none;
-    color: var(--color-primary-800);
+    color: var(--color-gray-900);
   }
   
   .list a:hover,

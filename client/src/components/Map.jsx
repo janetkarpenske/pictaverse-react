@@ -1,10 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useSelector } from "react-redux";
 import classes from './styles/Map.module.css';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { db } from './../firebase/config';
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import mapStyle from './styles/mapStyle';
 import picture from "./../img/bckgrnd_temp.jpg";
+import { useNavigate } from "react-router-dom";
+
+//MUI imports
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+
+import Box from '@mui/material/Box';
 
 const GOOGLE_MAPS_API_TOKEN = process.env.REACT_APP_GOOGLE_MAPS_API_TOKEN;
 
@@ -25,11 +38,16 @@ export default function Map() {
     const [mapSelectedMarker, setMapSelectedMarker] = useState(null);
     const [isLoadingPosts, setIsLoadingPosts] = useState(false);
 
+    const navigate = useNavigate();
+
+    let authenticatedUserUID = useSelector((state => state.user.signedInUserUID));
+    //const memoizedUserUID = useMemo(() => authenticatedUserUID, [authenticatedUserUID]);
+
     useEffect(() => {
-        
+        //, where("upUserUID", "==", authenticatedUserUID)
         const getPosts = async () => {
             setIsLoadingPosts(true);
-            const q = query(collection(db, "upUserPosts"), where("upUserUID", "==", "7H4JVjnqAXVST9qaME0JLvvd3bE3"));
+            const q = query(collection(db, "upUserPosts"));
 
             let userPostsArr = [];
 
@@ -44,6 +62,7 @@ export default function Map() {
                     upLongitude: doc.data().upLongitude,
                     upPostName: doc.data().upPostName,
                     upDescription: doc.data().upDescription,
+                    upImage: doc.data().upImage,
                     upID: doc.id
                 };
                 userPostsArr.push(post);
@@ -53,63 +72,88 @@ export default function Map() {
         }
 
         getPosts();
-    }, [])
+    }, [authenticatedUserUID])
 
+    const handleClick = () => {
+        console.log("Clicked: ", mapSelectedMarker.upID)
+        navigate(`/posts/${mapSelectedMarker.upID}`)
+    }
     return (
         <>
-            <div className={classes.postContainer}>
-                {userPosts && userPosts.length > 0 && (
-                    userPosts.map((post) => (
-                        <div key={post.upID} className={classes.postCard} onClick={() => setMapSelectedMarker(post)}>
-                            <h1 >{post.upPostName}</h1>
-                            <h2>{post.upCity}, {post.upState}</h2>
-                            <br />
-                            <div className={classes.postImg}>
-                                <img src={picture} width="100%" height="100%"/>
-                            </div>
-                            <div className={classes.postDetails}>
-                                <p>{post.upDescription}</p>
-                            </div>
-                            
+            {isLoadingPosts && (
+                <Box sx={{ display: 'flex' }} className={classes.loader}>
+                    <CircularProgress size="80px" />
+                </Box>
+            )}
+            {!isLoadingPosts && (
+                <div>
+                    <div className={classes.postContainer}>
+                        <div className={classes.gridContainer}>
+                            {userPosts && userPosts.length > 0 && (
+                                userPosts.map((post) => (
+                                    <div key={post.upID} onClick={() => setMapSelectedMarker(post)}>
+                                        <Card className={classes.muiCard}>
+                                            <CardMedia
+                                                sx={{ height: 140 }}
+                                                image={post.upImage}
+                                                title="Post Image"
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="div">
+                                                    {post.upPostName}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                                    {post.upDescription.slice(0, 60)}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <p className={classes.cardLocation}>{post.upCity}, {post.upState}</p>
+                                            </CardActions>
+                                        </Card>
+
+                                    </div>
+                                ))
+                            )}
                         </div>
-                    ))
-                )}
-            </div>
-            <div className={classes.mapContainer}>
-                {!isLoadingPosts && userPosts.length > 0 && <LoadScript googleMapsApiKey="" >
-                    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} defaultOptions={{styles: mapStyle}}  >
-                        {userPosts.map((post) => (
-                            <Marker key={post.upID}
-                                icon={customIcon}
-                                position={{
-                                    lat: post.upLatitude,
-                                    lng: post.upLongitude
-                                }}
-                                onClick={() => {
-                                    setMapSelectedMarker(post);
-                                }}
-                            />
-                        ))}
-                        {mapSelectedMarker && (
-                            <InfoWindow
-                            className={classes.mapInfoWindow}
-                                position={{
-                                    lat: mapSelectedMarker.upLatitude,
-                                    lng: mapSelectedMarker.upLongitude
-                                }}
-                                onCloseClick={() => {
-                                    setMapSelectedMarker(null);
-                                }}
-                            >
-                                <div className="popupPost">
-                                    <h4>{mapSelectedMarker.upPostName}</h4>
-                                    <img className="popupImg" src={mapSelectedMarker.image}></img>
-                                </div>
-                            </InfoWindow>
-                        )}
-                    </GoogleMap>
-                </LoadScript>}
-            </div>
+                    </div>
+                    <div className={classes.mapContainer}>
+                        {!isLoadingPosts && userPosts.length > 0 && <LoadScript googleMapsApiKey="" >
+                            <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} defaultOptions={{ styles: mapStyle }}  >
+                                {userPosts.map((post) => (
+                                    <Marker key={post.upID}
+                                        icon={post.upUserUID == authenticatedUserUID ? customIcon : undefined}
+                                        position={{
+                                            lat: post.upLatitude,
+                                            lng: post.upLongitude
+                                        }}
+                                        onClick={() => {
+                                            setMapSelectedMarker(post);
+                                        }}
+                                    />
+                                ))}
+                                {mapSelectedMarker && (
+                                    <InfoWindow
+                                        className={classes.mapInfoWindow}
+                                        position={{
+                                            lat: mapSelectedMarker.upLatitude,
+                                            lng: mapSelectedMarker.upLongitude
+                                        }}
+                                        onCloseClick={() => {
+                                            setMapSelectedMarker(null);
+                                        }}
+                                    >
+                                        <div className="popupPost" style={{ width: '180px', height: '220px' }}>
+                                            <h4>{mapSelectedMarker.upPostName}</h4>
+                                            <img style={{ width: '175px', height: '150px' }} src={mapSelectedMarker.upImage}></img>
+                                            <p>{mapSelectedMarker.upDescription.slice(0, 38)} ... <b onClick={handleClick} style={{ cursor: 'pointer' }}>Read More</b></p>
+                                        </div>
+                                    </InfoWindow>
+                                )}
+                            </GoogleMap>
+                        </LoadScript>}
+                    </div>
+                </div>
+            )}
         </>
     )
 }

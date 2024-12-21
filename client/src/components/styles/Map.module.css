@@ -14,7 +14,7 @@
     margin-left: .5%;
     height: 83vh;
     color: rgb(0, 0, 0);
-    border: solid 1px rgb(175, 180, 190);
+    border: solid 1px rgb(255, 255, 255);
     border-radius: 8px;
     overflow-y: scroll;
 }
@@ -31,13 +31,23 @@
     background-color: #000000;
     border: 2px solid #555555;
   }
-
+  .gridContainer { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .postCard {
     border: solid 1px grey;
     border-radius: 5px;
     margin: 10px;
     width: auto;
     height: 200px
+}
+
+.muiCard {
+    height: 300px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.muiCard:hover {
+    cursor: pointer;
+    border: 1px solid gray;
 }
 
 .postCard:hover {
@@ -76,4 +86,18 @@
 
 .mapInfoWindow{
     width: 500px;
+}
+
+.popupPost .popupImage {
+    width: 50px;
+    height: 100px;
+}
+
+.loader {
+    margin-left: 45%;
+    margin-top: 10%;
+}
+.cardLocation {
+    bottom: 0;
+    left: 0;
 }

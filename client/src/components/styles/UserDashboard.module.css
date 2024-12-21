@@ -1,0 +1,27 @@
+h1 {
+    margin-left: 20px;
+    padding-top: 20px;
+    color: rgb(68, 68, 68);
+}
+.dashboardBody {
+    background-color: rgb(212, 229, 235);
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+.row {
+    display: flex;
+}
+.row .box {
+    width: 300px;
+    height: 150px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    margin: 20px auto;
+    align-content: center;
+}
+.row .box h3 {
+    text-align: center;
+    color: rgb(87, 87, 87);
+}

@@ -7,6 +7,8 @@ import HomePage from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import AboutPage from './pages/About';
 import NewPostForm from './components/NewPostForm';
+import PostDetailsPage from './pages/PostDetailsPage.jsx';
+import { isUserAuthenticated } from './utils/auth.js';
 
 const router = createBrowserRouter([
   { 
@@ -37,6 +39,11 @@ const router = createBrowserRouter([
       {
         path: 'newPost',
         element: <NewPostForm />
+      },
+      {
+        path: 'posts/:postId',
+        id: 'post-detail',
+        element: <PostDetailsPage />
       }
     ]
   }
