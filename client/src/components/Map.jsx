@@ -1,11 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import classes from './styles/Map.module.css';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { db } from './../firebase/config';
-import { collection, query, where, getDocs } from 'firebase/firestore'
+import { collection, query, getDocs } from 'firebase/firestore'
 import mapStyle from './styles/mapStyle';
-import picture from "./../img/bckgrnd_temp.jpg";
 import { useNavigate } from "react-router-dom";
 
 //MUI imports
@@ -13,7 +12,6 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -94,19 +92,19 @@ export default function Map() {
                                     <div key={post.upID} onClick={() => setMapSelectedMarker(post)}>
                                         <Card className={classes.muiCard}>
                                             <CardMedia
-                                                sx={{ height: 140 }}
+                                                sx={{ height: 160 }}
                                                 image={post.upImage}
                                                 title="Post Image"
                                             />
-                                            <CardContent>
-                                                <Typography gutterBottom variant="h5" component="div">
+                                            <CardContent >
+                                                <Typography gutterBottom variant="h5" component="div" style={{ fontSize: '16px', fontWeight: '500' }}>
                                                     {post.upPostName}
                                                 </Typography>
-                                                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                                    {post.upDescription.slice(0, 60)}
+                                                <Typography variant="body2" sx={{ color: 'text.secondary' }} className={classes.muiCardDesc}>
+                                                    {post.upDescription}
                                                 </Typography>
                                             </CardContent>
-                                            <CardActions>
+                                            <CardActions className={classes.muiCardPlace}>
                                                 <p className={classes.cardLocation}>{post.upCity}, {post.upState}</p>
                                             </CardActions>
                                         </Card>
@@ -121,7 +119,7 @@ export default function Map() {
                             <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} defaultOptions={{ styles: mapStyle }}  >
                                 {userPosts.map((post) => (
                                     <Marker key={post.upID}
-                                        icon={post.upUserUID == authenticatedUserUID ? customIcon : undefined}
+                                        icon={post.upUserUID === authenticatedUserUID ? customIcon : undefined}
                                         position={{
                                             lat: post.upLatitude,
                                             lng: post.upLongitude
@@ -142,9 +140,9 @@ export default function Map() {
                                             setMapSelectedMarker(null);
                                         }}
                                     >
-                                        <div className="popupPost" style={{ width: '180px', height: '220px' }}>
+                                        <div className={classes.popupPost} style={{ width: '180px', height: '220px' }}>
                                             <h4>{mapSelectedMarker.upPostName}</h4>
-                                            <img style={{ width: '175px', height: '150px' }} src={mapSelectedMarker.upImage}></img>
+                                            <img style={{ width: '175px', height: '150px' }} src={mapSelectedMarker.upImage} alt="Post pic"></img>
                                             <p>{mapSelectedMarker.upDescription.slice(0, 38)} ... <b onClick={handleClick} style={{ cursor: 'pointer' }}>Read More</b></p>
                                         </div>
                                     </InfoWindow>

@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import classes from './styles/MainNavigation.module.css';
@@ -13,6 +13,7 @@ function MainNavigation() {
   const dispatch = useDispatch();
 
   let currentUser = useSelector((state => state.user.signedInUserEmail));
+  //const isLoading = useSelector((state) => state.user.isLoading);
 
   const handleSignOut = () => {
     signOut(auth);
@@ -20,6 +21,7 @@ function MainNavigation() {
   };
 
   onAuthStateChanged(auth, (user) => {
+    console.log("Triggered");
     let payload;
     if (user !== null) {
       payload = {
@@ -34,7 +36,7 @@ function MainNavigation() {
     dispatch(userActions.setSignedInUser(payload));
 
     if (user != null) {
-      //load other immediate data needed here
+
     }
     else {
 

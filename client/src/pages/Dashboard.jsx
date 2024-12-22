@@ -15,7 +15,7 @@ export default function Dashboard() {
         <div className="container">
             <div className={classes.buttonBanner}>
                 <Button variant='outlined' onClick={handleNavigate}>
-                    New Post
+                    + New Post
                 </Button>
             </div>
 

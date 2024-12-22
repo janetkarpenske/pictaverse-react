@@ -26,3 +26,22 @@
     margin-top: 20px;
     text-align: justify;
 }
+.postTools {
+    margin-left: 48%;
+}
+.postTools button {
+    font-size: 16px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 30px;
+    background-color: var(--color-primary-700);
+    color: rgb(255, 255, 255);
+    margin-bottom: 5%;
+    border: 1px solid rgb(1, 15, 34);
+    border-radius: 0px 10px 0px 10px;
+}
+.postTools button:hover {
+    background-color: var(--color-primary-800);
+    cursor: pointer;
+}
