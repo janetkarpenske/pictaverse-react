@@ -18,6 +18,7 @@ import { Button } from '@mui/material';
 export default function NewPostForm() {
 
     const [postName, setPostName] = useState('');
+    const [streetAddress, setStreetAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [description, setDescription] = useState('');
@@ -36,34 +37,33 @@ export default function NewPostForm() {
         navigate("/dashboard");
     }
 
-    const getCoordinates = async () => {
+    const getGoogleCoordinates = async () => {
         let queryParams = "";
-        if (city) {
-            queryParams = city;
+        if (streetAddress) {
+            queryParams = streetAddress;
         }
-        if (state && city) {
-            queryParams = queryParams + "," + state
+        if (streetAddress && city) {
+            queryParams = queryParams + ", " + city;
         }
-        //country must be ISO 3166 country code
-        if (country && state && city) {
-            queryParams = queryParams + "," + country
+        if (state && city && streetAddress) {
+            queryParams = queryParams + ", " + state
         }
-        let limit = 2;
-        let url = 'http://api.openweathermap.org/geo/1.0/direct?q=' + queryParams + '&limit=' + limit + '&appid=' + process.env.REACT_APP_OPEN_WEATHER_API_KEY;
+
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(queryParams)}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_TOKEN}`
         try {
-            console.log("Making API call to get coordiantes...");
             const response = await fetch(url);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch coordinates location data');
             }
             const responseData = await response.json();
-            return [responseData[0].lat, responseData[0].lon];
+            return [responseData.results[0].geometry.location.lat, responseData.results[0].geometry.location.lng];
         }
         catch (err) {
             console.log(err);
         }
     }
+
     const resetForm = () => {
         setCity('');
         setCountry('');
@@ -79,40 +79,43 @@ export default function NewPostForm() {
         }
     }
 
-        const handlePhotoUpload = () => {
-            const storageRef = ref(storage, `images/${file.name}`);
-            uploadBytes(storageRef, file).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((downloadURL) => {
-                    setUrl(downloadURL)
-                });
+    const handlePhotoUpload = () => {
+        const storageRef = ref(storage, `images/${file.name}`);
+        uploadBytes(storageRef, file).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
+                setUrl(downloadURL)
             });
-        };
+        });
+    };
 
-        const createNewPost = async () => {
-            setIsDisabled(true);
+    const createNewPost = async () => {
+        setIsDisabled(true);
 
-            let coordArray = await getCoordinates();
-            try {
-                await addDoc(collection(db, "upUserPosts"), {
-                    upCity: city,
-                    upCountry: country,
-                    upDescription: description,
-                    upUserUID: userUID,
-                    upLatitude: coordArray[0],
-                    upLongitude: coordArray[1],
-                    upPostName: postName,
-                    upState: state
-                });
-            }
-            catch (error) {
-                console.log('An error occurred creating post in Firestore');
-            }
-            resetForm();
-            
+        let coordArray = await getGoogleCoordinates();
+        console.log("Moment of truth: ", coordArray)
+        try {
+            await addDoc(collection(db, "upUserPosts"), {
+                upCity: city,
+                upCountry: country,
+                upDescription: description,
+                upUserUID: userUID,
+                upLatitude: coordArray[0],
+                upLongitude: coordArray[1],
+                upPostName: postName,
+                upState: state,
+                upImage: "https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            });
         }
+        catch (error) {
+            console.log('An error occurred creating post in Firestore');
+        }
+        resetForm();
 
-        return (
-            <>
+    }
+
+    return (
+        <>
+            <div className={classes.newPostForm}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center", marginTop: "8%" }}>
 
                     <br />
@@ -134,14 +137,14 @@ export default function NewPostForm() {
                         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                             <TextField
                                 id="standard-basic"
-                                label="Description"
+                                label="Street Address"
                                 variant="standard"
                                 color="primary"
-                                name="description"
+                                name="streetAddress"
                                 required
-                                value={description}
+                                value={streetAddress}
                                 disabled={isDisabled}
-                                onChange={(e) => { setDescription(e.target.value) }} />
+                                onChange={(e) => { setStreetAddress(e.target.value) }} />
                         </FormControl>
                         <br />
                         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
@@ -171,14 +174,29 @@ export default function NewPostForm() {
                         </FormControl>
                         <br />
                         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                            <input className={classes.fileUploadBtn} type="file" onChange={handlePhotoChange} disabled={true}/>
+                            <label for="description" className={classes.description}>Description</label>
+                            <textarea
+                                className={classes.txtArea}
+                                id="description"
+                                name="description"
+                                rows="4"
+                                cols="50"
+                                required
+                                value={description}
+                                disabled={isDisabled}
+                                onChange={(e) => { setDescription(e.target.value) }} >
+                            </textarea>
                         </FormControl>
+                        <br />
+                        <label for="fileupload" className={classes.customFileUpload}>Upload Photo</label>
+                        <input id="fileupload" type="file" onChange={handlePhotoChange} disabled={false} />
                         <br />
                         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                             <Button onClick={handleCreatePost} disabled={isDisabled}>Create</Button>
                         </FormControl>
                     </form>
                 </Box>
-            </>
-        )
-    }
+            </div>
+        </>
+    )
+}
