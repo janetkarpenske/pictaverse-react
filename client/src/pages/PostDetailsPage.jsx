@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import EditPostForm from "../components/EditPostForm";
 
-
+const postTags = ["Family-Friendly", "Kid-Friendly", "Outdoor", "Indoor"]
 export default function PostDetailsPage() {
     const [post, setPost] = useState(null);
     const [postID, setPostID] = useState(null);
@@ -82,34 +82,49 @@ export default function PostDetailsPage() {
                     <div className={classes.postInfo}>
                         <h1>{post.upPostName}</h1>
                         <h2>{post.upCity}, {post.upState}</h2>
-                        <img src={post.upImage} width="700px" alt="Post Image"></img>
-                        <p>{post.upDescription}</p>
-                        <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Mauris in integer mi adipiscing
-                            turpis suscipit urna magna. Aptent at nam nisi arcu viverra congue facilisis per.
-                            Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
-                            donec semper nullam curabitur montes. Viverra est scelerisque dictum ultrices nam.
-                            Volutpat duis etiam vulputate magna nisi. Lectus pulvinar venenatis eu quam lacinia magnis
-                            taciti nec nascetur.</p>
-                        <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Mauris in integer mi adipiscing
-                            turpis suscipit urna magna. Aptent at nam nisi arcu viverra congue facilisis per.
-                            Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
-                            donec semper nullam curabitur montes. Viverra est scelerisque dictum ultrices nam.
-                            Volutpat duis etiam vulputate magna nisi. Lectus pulvinar venenatis eu quam lacinia magnis
-                            taciti nec nascetur. Aptent at nam nisi arcu viverra congue facilisis per.
-                            Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
-                            donec semper nullam curabitur montes</p>
-                        <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Mauris in integer mi adipiscing
-                            turpis suscipit urna magna. Aptent at nam nisi arcu viverra congue facilisis per.
-                            Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
-                            donec semper nullam curabitur montes. Viverra est scelerisque dictum ultrices nam.
-                            Volutpat duis etiam vulputate magna nisi. Lectus pulvinar venenatis eu quam lacinia magnis
-                            taciti nec nascetur.</p>
+                        {authenticatedUserUID === post.upUserUID && (
+                            <div className={classes.postTools}>
+                                <button onClick={handleClickOpen}>Delete</button>
+                                <button onClick={handleEdit}>Edit</button>
+                            </div>)}
+                        <img src={post.upURL} width="700px" alt="Post Image"></img>
+                        <div className={classes.postTags}>
+                            {post.upTags?.map((tag, idx) => (
+                                <span key={idx} className={classes.tagChip}>{tag}</span>
+                            ))}
+                        </div>
+                        <div className={classes.justifyParagraphs}>
+                            <br />
+                            <p dangerouslySetInnerHTML={{ __html: post.upDescription }} />
+                            <br /><br />
+                            <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Mauris in integer mi adipiscing
+                                turpis suscipit urna magna. Aptent at nam nisi arcu viverra congue facilisis per.
+                                Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
+                                donec semper nullam curabitur montes. Viverra est scelerisque dictum ultrices nam.
+                                Volutpat duis etiam vulputate magna nisi. Lectus pulvinar venenatis eu quam lacinia magnis
+                                taciti nec nascetur.</p><br /><br />
+                            <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Mauris in integer mi adipiscing
+                                turpis suscipit urna magna. Aptent at nam nisi arcu viverra congue facilisis per.
+                                Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
+                                donec semper nullam curabitur montes. Viverra est scelerisque dictum ultrices nam.
+                                Volutpat duis etiam vulputate magna nisi. Lectus pulvinar venenatis eu quam lacinia magnis
+                                taciti nec nascetur. Aptent at nam nisi arcu viverra congue facilisis per.
+                                Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
+                                donec semper nullam curabitur montes</p><br /><br />
+                            <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Mauris in integer mi adipiscing
+                                turpis suscipit urna magna. Aptent at nam nisi arcu viverra congue facilisis per.
+                                Primis tempus adipiscing rutrum hac conubia fermentum sem. Sit gravida sem sapien
+                                donec semper nullam curabitur montes. Viverra est scelerisque dictum ultrices nam.
+                                Volutpat duis etiam vulputate magna nisi. Lectus pulvinar venenatis eu quam lacinia magnis
+                                taciti nec nascetur.</p>
+                        </div>
                     </div>
-                    {authenticatedUserUID === post.upUserUID && (
-                        <div className={classes.postTools}>
-                            <button onClick={handleClickOpen}>Delete</button>
-                            <button onClick={handleEdit}>Edit</button>
-                        </div>)}
+                    <div className={classes.commentSection}>
+                        <h3>Comments</h3>
+                        <br/>
+                        <p>No Comments so far!</p>
+                    </div>
+
                     <Dialog
                         open={open}
                         onClose={handleClose}
@@ -131,11 +146,13 @@ export default function PostDetailsPage() {
                             </Button>
                         </DialogActions>
                     </Dialog>
+
                 </>
             )}
             {isEditFormShowing && (
                 <EditPostForm post={post} postId={postID} cancelEdit={() => cancelEdit()} />
             )}
+            {/* <UserDashboard/> */}
         </>
     )
 }

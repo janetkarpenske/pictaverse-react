@@ -1,6 +1,32 @@
 .buttonBanner {
+    margin-top: 21px;
+    height: 16px;
+    align-items: center;
     width: 100%;
     padding-left: 2rem;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    right: 0;
+    gap: 30px;
+}
+
+.leftBtns {
+    display: flex;
+    gap: 30px;
+}
+
+.rightBtns {
+    display: flex;
+    margin-left: auto;
+    margin-right: 2rem;
+    gap: 30px;
+}
+
+img, p {
+    display: inline;
+
+}
+
+p {
+    margin-left: 6px;
 }

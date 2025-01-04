@@ -15,26 +15,120 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 
+const allTagOptions = ["Family-Friendly", "Kid-Friendly", "Adult-Only", "Outdoor", "Indoor", "Food & Drinks", "Physical Activity", "Shopping", "Relaxing", "Strenuous"]
+
 export default function NewPostForm() {
 
     const [postName, setPostName] = useState('');
+    const [postNameWasEdited, setPostNameWasEdited] = useState(false);
+    const [postNameErr, setPostNameErr] = useState(false);
+    const [postTagline, setPostTagline] = useState('');
+    const [postTaglineWasEdited, setPostTaglineWasEdited] = useState(false);
+    const [postTaglineErr, setPostTaglineErr] = useState(false);
     const [streetAddress, setStreetAddress] = useState('');
+    const [streetAddressWasEdited, setStreetAddressWasEdited] = useState(false);
+    const [streetAddressErr, setStreetAddressErr] = useState(false);
     const [city, setCity] = useState('');
+    const [cityWasEdited, setCityWasEdited] = useState(false);
+    const [cityErr, setCityErr] = useState(false);
     const [state, setState] = useState('');
+    const [stateWasEdited, setStateWasEdited] = useState(false);
+    const [stateErr, setStateErr] = useState(false);
     const [description, setDescription] = useState('');
+    const [descriptionWasEdited, setDescriptionWasEdited] = useState(false);
+    const [descriptionErr, setDescriptionErr] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
     const [country, setCountry] = useState('US');
     const [file, setFile] = useState(null);
+    const [allTags, setAllTags] = useState(allTagOptions);
+    const [selectedTags, setSelectedTags] = useState([]);
     const [url, setUrl] = useState('');
 
     let userUID = useSelector((state => state.user.signedInUserUID));
     const navigate = useNavigate();
 
-    const handleCreatePost = (event) => {
+    const handleCreatePost = async (event) => {
         event.preventDefault();
-        createNewPost();
-        //handlePhotoUpload();
+        await createNewPost();
+
         navigate("/dashboard");
+    }
+
+    const handlePostNameChange = (event) => {
+        let isPostNameInvalid = false;
+
+        if((postNameWasEdited && event.target.value.length == 0)) {
+            isPostNameInvalid = true;
+        }
+        setPostNameWasEdited(true);
+        setPostNameErr(isPostNameInvalid);
+        setPostName(event.target.value);
+    }
+    const handleTaglineChange = (event) => {
+        let isTaglineInvalid = false;
+
+        if((postTaglineWasEdited && event.target.value.length == 0)) {
+            isTaglineInvalid = true;
+        }
+        setPostTaglineWasEdited(true);
+        setPostTaglineErr(isTaglineInvalid);
+        setPostTagline(event.target.value);
+    }
+    const handleAddressChange = (event) => {
+        let isAddressInvalid = false;
+        if((streetAddressWasEdited && event.target.value.length == 0)) {
+            isAddressInvalid = true;
+        }
+        setStreetAddressWasEdited(true);
+        setStreetAddressErr(isAddressInvalid);
+        setStreetAddress(event.target.value);
+    }
+    const handleCityChange = (event) => {
+        let isCityInvalid = false;
+        if((cityWasEdited && event.target.value.length == 0)) {
+            isCityInvalid = true;
+        }
+        setCityWasEdited(true);
+        setCityErr(isCityInvalid);
+        setCity(event.target.value);
+    }
+    const handleStateChange = (event) => {
+        let isStateInvalid = false;
+        if((stateWasEdited && event.target.value.length == 0)) {
+            isStateInvalid = true;
+        }
+        setStateWasEdited(true);
+        setStateErr(isStateInvalid);
+        setState(event.target.value);
+    }
+    const handleDescriptionChange = (event) => {
+        let isDescriptionInvalid = false;
+        if((descriptionWasEdited && event.target.value.length == 0)) {
+            isDescriptionInvalid = true;
+        }
+        setDescriptionWasEdited(true);
+        setDescriptionErr(isDescriptionInvalid);
+        setDescription(event.target.value);
+    }
+    const handleAddTag = (idx) => {
+        setSelectedTags(prev => {
+            return [...prev, allTags[idx]]
+        })
+        setAllTags(prev => {
+            let tmp = [...prev];
+            tmp.splice(idx, 1);
+            return tmp;
+        })
+    }
+    const handleRemoveTag = (idx) => {
+        setAllTags(prev => {
+            return [...prev, selectedTags[idx]]
+        })
+        setSelectedTags(prev => {
+            let tmp = [...prev];
+            tmp.splice(idx, 1);
+            return tmp;
+        })
     }
 
     const getGoogleCoordinates = async () => {
@@ -79,31 +173,37 @@ export default function NewPostForm() {
         }
     }
 
-    const handlePhotoUpload = () => {
-        const storageRef = ref(storage, `images/${file.name}`);
-        uploadBytes(storageRef, file).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((downloadURL) => {
-                setUrl(downloadURL)
-            });
-        });
-    };
-
     const createNewPost = async () => {
         setIsDisabled(true);
 
+        const storageRef = ref(storage, `images/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        let modifiedDesc = description.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+        modifiedDesc = modifiedDesc.replace(/\n/g, "<br>");
+
+
         let coordArray = await getGoogleCoordinates();
-        console.log("Moment of truth: ", coordArray)
         try {
             await addDoc(collection(db, "upUserPosts"), {
                 upCity: city,
+                upStreetAddress: streetAddress,
                 upCountry: country,
-                upDescription: description,
+                upDescription: modifiedDesc,
                 upUserUID: userUID,
                 upLatitude: coordArray[0],
                 upLongitude: coordArray[1],
                 upPostName: postName,
+                upTags: selectedTags,
                 upState: state,
-                upImage: "https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                upTagline: postTagline,
+                upURL: downloadURL ?? ""
             });
         }
         catch (error) {
@@ -120,10 +220,11 @@ export default function NewPostForm() {
 
                     <br />
                     <form onSubmit={handleCreatePost}>
-                        <h2>Create a Post</h2>
-                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <h2>Create a New Post</h2>
+                        <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
                             <TextField
                                 id="standard-basic"
+                                error={postNameErr}
                                 label="Enter a Name for your post"
                                 variant="standard"
                                 color="primary"
@@ -131,12 +232,27 @@ export default function NewPostForm() {
                                 required
                                 value={postName}
                                 disabled={isDisabled}
-                                onChange={(e) => { setPostName(e.target.value) }} />
+                                onChange={handlePostNameChange} />
                         </FormControl>
                         <br />
-                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
                             <TextField
                                 id="standard-basic"
+                                error={postTaglineErr}
+                                label="Enter Tagline"
+                                variant="standard"
+                                color="primary"
+                                name="postTagline"
+                                required
+                                value={postTagline}
+                                disabled={isDisabled}
+                                onChange={handleTaglineChange} />
+                        </FormControl>
+                        <br />
+                        <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
+                            <TextField
+                                id="standard-basic"
+                                error={streetAddressErr}
                                 label="Street Address"
                                 variant="standard"
                                 color="primary"
@@ -144,12 +260,13 @@ export default function NewPostForm() {
                                 required
                                 value={streetAddress}
                                 disabled={isDisabled}
-                                onChange={(e) => { setStreetAddress(e.target.value) }} />
+                                onChange={handleAddressChange} />
                         </FormControl>
                         <br />
-                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
                             <TextField
                                 id="standard-basic"
+                                error={cityErr}
                                 label="City"
                                 variant="standard"
                                 color="primary"
@@ -157,12 +274,13 @@ export default function NewPostForm() {
                                 required
                                 value={city}
                                 disabled={isDisabled}
-                                onChange={(e) => { setCity(e.target.value) }} />
+                                onChange={handleCityChange} />
                         </FormControl>
                         <br />
-                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
                             <TextField
                                 id="standard-basic"
+                                error={stateErr}
                                 label="State"
                                 variant="standard"
                                 color="primary"
@@ -170,13 +288,14 @@ export default function NewPostForm() {
                                 required
                                 value={state}
                                 disabled={isDisabled}
-                                onChange={(e) => { setState(e.target.value) }} />
+                                onChange={handleStateChange} />
                         </FormControl>
                         <br />
-                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <FormControl sx={{ m: 1, width: '28ch' }} variant="outlined">
                             <label for="description" className={classes.description}>Description</label>
                             <textarea
                                 className={classes.txtArea}
+                                error={descriptionErr}
                                 id="description"
                                 name="description"
                                 rows="4"
@@ -184,18 +303,43 @@ export default function NewPostForm() {
                                 required
                                 value={description}
                                 disabled={isDisabled}
-                                onChange={(e) => { setDescription(e.target.value) }} >
+                                onChange={handleDescriptionChange} >
                             </textarea>
                         </FormControl>
                         <br />
-                        <label for="fileupload" className={classes.customFileUpload}>Upload Photo</label>
-                        <input id="fileupload" type="file" onChange={handlePhotoChange} disabled={false} />
-                        <br />
-                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                            <Button onClick={handleCreatePost} disabled={isDisabled}>Create</Button>
-                        </FormControl>
+                        {!file && (<>
+                            <label for="fileupload" className={classes.customFileUpload}>Upload Photo</label>
+                            <input id="fileupload" type="file" onChange={handlePhotoChange} disabled={false} />
+                        </>)}
+                        {
+                            file &&
+                            <p>{file.name} Selected</p>
+                        }
+                        <br /><br />
                     </form>
+
                 </Box>
+                <div className={classes.tagOptions}>
+                    <h3>Selected Tags</h3>
+                    {selectedTags.map((tag, idx) => (
+                        <span key={idx} className={classes.availableTags} onClick={() => handleRemoveTag(idx)}>{tag}</span>
+                    ))}
+                    <h3>Select Tags to Add</h3>
+                    {allTags.map((tag, idx) => (
+                        <span key={idx} className={classes.availableTags} onClick={() => handleAddTag(idx)}>{tag}</span>
+                    ))}
+                </div>
+                <Button 
+                    onClick={handleCreatePost} 
+                    variant='outlined' 
+                    style={{ bottom: "-30px", marginLeft: "46%" }}
+                    disabled={(postNameErr || postTaglineErr || streetAddressErr || cityErr || stateErr ||
+                        postName.length === 0 || postTagline.length === 0 || streetAddress.length === 0 || city.length === 0 || state.length === 0
+                    )}
+                >
+                    Create
+                </Button>
+
             </div>
         </>
     )

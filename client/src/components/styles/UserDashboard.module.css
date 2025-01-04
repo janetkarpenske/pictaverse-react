@@ -1,27 +1,89 @@
-h1 {
+.columnMid h1 {
     margin-left: 20px;
+    margin-top: 20px;
+    text-align: center;
     padding-top: 20px;
-    color: rgb(68, 68, 68);
+    margin-bottom: 20px;
+    color: var(--color-primary-900);
 }
+
 .dashboardBody {
-    background-color: rgb(212, 229, 235);
-    height: 100vh;
+    background-color: rgb(255, 255, 255);
+    height: 91vh;
     margin: 0;
     padding: 0;
     align-items: center;
 }
+
+.columnLeft {
+    text-align: center;
+    display: inline-block;
+    width: 15%;
+    background-color: white;
+    height: 78%;
+    margin-left: 2%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 6px 2px var(--color-primary-700);
+}
+.columnLeft h1, .columnRight h1 {
+    margin-top: 4%;
+    color: var(--color-primary-900);
+}
+.columnMid {
+    display: inline-block;
+    width: 57%;
+}
+.columnRight {
+    text-align: center;
+    display: inline-block;
+    width: 24%;
+    background-color: white;
+    height: 78%;
+    margin-right: 2%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 6px 2px var(--color-primary-700);
+}
+
 .row {
     display: flex;
+
 }
+
 .row .box {
     width: 300px;
     height: 150px;
     background-color: rgb(255, 255, 255);
-    border-radius: 20px;
+    border-radius: 10px;
     margin: 20px auto;
     align-content: center;
+    box-shadow: 5px 5px 6px 2px var(--color-primary-700);
 }
-.row .box h3 {
+
+.row .box h3, p {
     text-align: center;
-    color: rgb(87, 87, 87);
+    color: rgb(39, 39, 39);
+}
+
+.row .box h3 {
+    font-size: 30px;
+}
+
+.box .boxText {
+    display: inline-block;
+    width: 60%;
+}
+
+.box .boxVisual {
+    display: inline-block;
+    width: 40%;
+}
+
+.newUsersRow {
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 96%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 6px 2px var(--color-primary-700);
+    height: 300px;
+    background-color: white;
 }

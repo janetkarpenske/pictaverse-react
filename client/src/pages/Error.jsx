@@ -3,9 +3,6 @@ import PageContent from '../components/PageContent';
 import { useRouteError } from 'react-router-dom';
 
 export default function ErrorPage() {
-  //returns an error object
-  //if you threw a Response then it will have an error.status field
-  //if you threw an object you created that property will not exist, it will just be your object
   const error = useRouteError();
   //error.status
 

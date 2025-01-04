@@ -5,9 +5,10 @@ import Signin from './pages/Signin';
 import Register from './pages/Register';
 import HomePage from './pages/Home';
 import Dashboard from './pages/Dashboard';
-import AboutPage from './pages/About';
+import AboutPage from './pages/AboutPage.jsx';
 import NewPostForm from './components/NewPostForm';
 import PostDetailsPage from './pages/PostDetailsPage.jsx';
+import UserProfile from './components/UserDashboard.jsx'
 import { isUserAuthenticated } from './utils/auth.js';
 
 const router = createBrowserRouter([
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: 'newPost',
         element: <NewPostForm />
+      },
+      {
+        path: 'userProfile',
+        element: <UserProfile />
       },
       {
         path: 'posts/:postId',

@@ -1,25 +1,29 @@
 .header {
-    width: 100%;
-    padding-top: 2rem;
-    padding-left: 2rem;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .list {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .list a,
-  .list button {
-    text-decoration: none;
-    color: var(--color-gray-900);
-  }
-  
-  .list a:hover,
-  .list a.active,
-  .list button:hover,
-  .list button:active {
-    color: var(--color-primary-700);
-  }
+  width: 100%;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-primary-900);
+}
+
+.list {
+  display: flex;
+  gap: 1rem;
+}
+
+.list a,
+.list button {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
+.list a:hover,
+.list a.active,
+.list button:hover,
+.list button:active {
+  color: var(--color-primary-700);
+}
+.icon {
+  padding: 0;
+}

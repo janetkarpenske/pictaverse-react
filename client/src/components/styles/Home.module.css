@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Barrio&family=Bungee+Inline&family=Roboto:wght@300;400;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -15,16 +15,35 @@
 }
 
 .homeContent {
+  margin-left: 2%;
   max-width: 600px;
 }
 
+.home .homeImg {
+  margin-left: 18%;
+  animation-duration: 2s;
+  animation-name: globespin;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+
+@keyframes globespin {
+  0%{
+    transform: scale(1.05);
+  }
+  100%{
+    /* transform: rotate(350deg); */
+    transform: scale(1.15);
+  }
+}
+
 .homeContent h1 {
+  margin-left: -4px;
   font-size: 70px;
   font-weight: 700;
   line-height: 1.2;
-  font-family: "Barrio", serif;
-  font-weight: 400;
-  font-style: normal;
+  color: var(--color-primary-900);
 }
 
 .homeContent h3 {
@@ -49,13 +68,14 @@
 
 .btnBox a {
   position: relative;
+  margin-top: 10px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   width: 150px;
   height: 100%;
-  background: var(--color-primary-700);
-  border: 2px solid var(--color-primary-700);
+  background: rgb(59, 196, 100);
+  border: 2px solid rgb(59, 196, 100);
   border-radius: 8px;
   font-size: 19px;
   color: #ffffff;
@@ -68,7 +88,7 @@
 }
 
 .btnBox a:hover {
-  color: var(--color-primary-700);
+  color: rgb(59, 196, 100);
 }
 
 .btnBox a:nth-child(2) {

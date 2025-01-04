@@ -14,6 +14,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
+import greenpointer from './../img/redsmall.png';
+import deepbluepointer from './../img/deepbluesmall.png';
 
 import Box from '@mui/material/Box';
 
@@ -21,14 +23,15 @@ const GOOGLE_MAPS_API_TOKEN = process.env.REACT_APP_GOOGLE_MAPS_API_TOKEN;
 
 const containerStyle = {
     width: '100%',
-    height: '83vh'
+    height: '85vh'
 };
 const center = {
     lat: 45.6280,
     lng: -122.6739
 };
 
-const customIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+const greenIcon = greenpointer;//'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+const blueIcon = deepbluepointer;
 
 export default function Map() {
     console.log("Rendering map...");
@@ -52,6 +55,7 @@ export default function Map() {
             const querySnapshot = await getDocs(q);
             querySnapshot?.forEach((doc) => {
                 const post = {
+                    upStreetAddress: doc.data().upStreetAddress ?? "",
                     upCity: doc.data().upCity,
                     upCountry: doc.data().upCountry,
                     upUserUID: doc.data().upUserUID,
@@ -60,7 +64,8 @@ export default function Map() {
                     upLongitude: doc.data().upLongitude,
                     upPostName: doc.data().upPostName,
                     upDescription: doc.data().upDescription,
-                    upImage: doc.data().upImage,
+                    upImage: doc.data().upURL,
+                    upTagline: doc.data().upTagline,
                     upID: doc.id
                 };
                 userPostsArr.push(post);
@@ -80,7 +85,7 @@ export default function Map() {
         <>
             {isLoadingPosts && (
                 <Box sx={{ display: 'flex' }} className={classes.loader}>
-                    <CircularProgress size="80px" />
+                    <CircularProgress size="120px" />
                 </Box>
             )}
             {!isLoadingPosts && (
@@ -101,7 +106,7 @@ export default function Map() {
                                                     {post.upPostName}
                                                 </Typography>
                                                 <Typography variant="body2" sx={{ color: 'text.secondary' }} className={classes.muiCardDesc}>
-                                                    {post.upDescription}
+                                                    {post.upTagline}
                                                 </Typography>
                                             </CardContent>
                                             <CardActions className={classes.muiCardPlace}>
@@ -119,7 +124,7 @@ export default function Map() {
                             <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} defaultOptions={{ styles: mapStyle }}  >
                                 {userPosts.map((post) => (
                                     <Marker key={post.upID}
-                                        icon={post.upUserUID === authenticatedUserUID ? customIcon : undefined}
+                                        icon={post.upUserUID === authenticatedUserUID ? greenIcon : blueIcon}
                                         position={{
                                             lat: post.upLatitude,
                                             lng: post.upLongitude
@@ -140,10 +145,10 @@ export default function Map() {
                                             setMapSelectedMarker(null);
                                         }}
                                     >
-                                        <div className={classes.popupPost} style={{ width: '180px', height: '220px' }}>
+                                        <div className={classes.popupPost} style={{ width: '270px', height: '220px' }}>
                                             <h4>{mapSelectedMarker.upPostName}</h4>
-                                            <img style={{ width: '175px', height: '150px' }} src={mapSelectedMarker.upImage} alt="Post pic"></img>
-                                            <p>{mapSelectedMarker.upDescription.slice(0, 38)} ... <b onClick={handleClick} style={{ cursor: 'pointer' }}>Read More</b></p>
+                                            <img style={{ width: '265px', height: '150px' }} src={mapSelectedMarker.upImage} alt="Post pic"></img>
+                                            <p>{mapSelectedMarker.upTagline.slice(0, 38)} ... <b onClick={handleClick} style={{ cursor: 'pointer' }}>Read More</b></p>
                                         </div>
                                     </InfoWindow>
                                 )}

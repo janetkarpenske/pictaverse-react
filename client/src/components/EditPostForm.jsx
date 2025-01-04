@@ -13,12 +13,14 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
-import { collection, doc, setDoc, addDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import classes from './styles/EditPostForm.module.css';
 
-export default function EditPostForm({post, postId, cancelEdit}) {
+export default function EditPostForm({ post, postId, cancelEdit }) {
 
     const [postName, setPostName] = useState(post.upPostName);
+    const [postTagline, setPostTagline] = useState(post.upTagline);
+    const [streetAddress, setStreetAddress] = useState(post.upStreetAddress);
     const [city, setCity] = useState(post.upCity);
     const [state, setState] = useState(post.upState);
     const [description, setDescription] = useState(post.upDescription);
@@ -30,10 +32,10 @@ export default function EditPostForm({post, postId, cancelEdit}) {
     let userUID = useSelector((state => state.user.signedInUserUID));
     const navigate = useNavigate();
 
-    const handleEditPost = (event) => {
+    const handleEditPost = async (event) => {
         event.preventDefault();
         console.log(postName);
-        editExistingPost();
+        await editExistingPost();
         //handlePhotoUpload();
         navigate("/dashboard");
     }
@@ -96,7 +98,10 @@ export default function EditPostForm({post, postId, cancelEdit}) {
                 upLongitude: coordArray[1],
                 upPostName: postName,
                 upState: state,
-                upImage: post.upImage
+                upStreetAddress: streetAddress,
+                upTags: post.upTags ?? [],
+                upTagline: postTagline,
+                upURL: post.upURL
             });
         }
         catch (error) {
@@ -107,77 +112,102 @@ export default function EditPostForm({post, postId, cancelEdit}) {
 
     return (
         <>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center", marginTop: "8%" }}>
+            <div className={classes.editPostForm}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center", marginTop: "8%" }}>
 
-                <br />
-                <form onSubmit={handleEditPost}>
-                    <h2>Create a Post</h2>
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <TextField
-                            id="standard-basic"
-                            label="Enter a Name for your post"
-                            variant="standard"
-                            color="primary"
-                            name="postName"
-                            required
-                            value={postName}
-                            disabled={isDisabled}
-                            onChange={(e) => { setPostName(e.target.value) }} />
-                    </FormControl>
                     <br />
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <TextField
-                            id="standard-basic"
-                            label="City"
-                            variant="standard"
-                            color="primary"
-                            name="city"
-                            required
-                            value={city}
-                            disabled={isDisabled}
-                            onChange={(e) => { setCity(e.target.value) }} />
-                    </FormControl>
-                    <br />
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <TextField
-                            id="standard-basic"
-                            label="State"
-                            variant="standard"
-                            color="primary"
-                            name="State"
-                            required
-                            value={state}
-                            disabled={isDisabled}
-                            onChange={(e) => { setState(e.target.value) }} />
-                    </FormControl>
-                    <br />
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <label for="description" className={classes.description}>Description</label>
-                        <textarea
-                            className={classes.txtArea}
-                            id="description"
-                            name="description"
-                            rows="4"
-                            cols="50"
-                            required
-                            value={description}
-                            disabled={isDisabled}
-                            onChange={(e) => { setDescription(e.target.value) }} >
-                        </textarea>
-                    </FormControl>
-                    <br />
+                    <form onSubmit={handleEditPost}>
+                        <h2>Edit Your Post</h2>
+                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                            <TextField
+                                id="standard-basic"
+                                label="Enter a Name for your post"
+                                variant="standard"
+                                color="primary"
+                                name="postName"
+                                required
+                                value={postName}
+                                disabled={isDisabled}
+                                onChange={(e) => { setPostName(e.target.value) }} />
+                        </FormControl>
+                        <br />
+                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                            <TextField
+                                id="standard-basic"
+                                label="Enter Tagline"
+                                variant="standard"
+                                color="primary"
+                                name="postTagline"
+                                required
+                                value={postTagline}
+                                disabled={isDisabled}
+                                onChange={(e) => { setPostTagline(e.target.value) }} />
+                        </FormControl>
+                        <br />
+                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                            <TextField
+                                id="standard-basic"
+                                label="Street Address"
+                                variant="standard"
+                                color="primary"
+                                name="streetAddress"
+                                required
+                                value={streetAddress}
+                                disabled={isDisabled}
+                                onChange={(e) => { setStreetAddress(e.target.value) }} />
+                        </FormControl>
+                        <br/>
+                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                            <TextField
+                                id="standard-basic"
+                                label="City"
+                                variant="standard"
+                                color="primary"
+                                name="city"
+                                required
+                                value={city}
+                                disabled={isDisabled}
+                                onChange={(e) => { setCity(e.target.value) }} />
+                        </FormControl>
+                        <br />
+                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                            <TextField
+                                id="standard-basic"
+                                label="State"
+                                variant="standard"
+                                color="primary"
+                                name="State"
+                                required
+                                value={state}
+                                disabled={isDisabled}
+                                onChange={(e) => { setState(e.target.value) }} />
+                        </FormControl>
+                        <br />
+                        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                            <label for="description" className={classes.description}>Description</label>
+                            <textarea
+                                className={classes.txtArea}
+                                id="description"
+                                name="description"
+                                rows="10"
+                                cols="50"
+                                required
+                                value={description}
+                                disabled={isDisabled}
+                                onChange={(e) => { setDescription(e.target.value) }} >
+                            </textarea>
+                        </FormControl>
+                        <br />
                         <label for="fileupload" className={classes.customFileUpload}>Upload Photo</label>
-                        <input id="fileupload" type="file" onChange={handlePhotoChange} disabled={false} />
-                    <br />
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <Button onClick={cancelEdit} disabled={isDisabled}>Cancel</Button>
-                    </FormControl>
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                        <Button onClick={handleEditPost} disabled={isDisabled}>Update Post</Button>
-                    </FormControl>
-
-                </form>
-            </Box>
+                        <input id="fileupload" type="file" onChange={handlePhotoChange} disabled={true} />
+                        <br />
+                        <div className={classes.optionBtns}>
+                            <Button className={classes.cancelBtn} onClick={cancelEdit} disabled={isDisabled}>Cancel</Button>
+                            <Button className={classes.updateBtn} onClick={handleEditPost} disabled={isDisabled} color="success" variant="outlined">Update Post</Button>
+                            </div>
+                    </form>
+                </Box>
+            </div>
         </>
     )
 }

@@ -7,13 +7,14 @@
 
 .container-narrow {
   margin-top: 5%;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
   text-align: justify;
   text-justify: inter-word;
-  border: #d3eaf3 solid 2px;
+  /* border: #d3eaf3 solid 2px; */
+  height: 70%;
   padding: 60px;
-  border-radius: 20px 0px 20px 0px;
+  /* border-radius: 20px 0px 20px 0px; */
 }
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -49,9 +50,9 @@
   --color-primary-400: #97cefb;
   --color-primary-500: #7ccbff;
   --color-primary-600: #5ca0df;
-  --color-primary-700: #288ae6;
+  --color-primary-700: #72aee6;
   --color-primary-800: #1a72c5;
-  --color-primary-900: hsl(167, 42%, 42%);
+  --color-primary-900: #092d50;
 }
 
 body {

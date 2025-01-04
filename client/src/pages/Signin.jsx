@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import classes from './../components/styles/Signin.module.css';
 
 //Material UI Imports
 import TextField from '@mui/material/TextField';
@@ -42,7 +43,6 @@ export default function Signin() {
         throw new Error('Sorry, something went wrong');
       }
       else {
-        //clear form
         navigate('/dashboard');
       }
     }
@@ -52,6 +52,7 @@ export default function Signin() {
 
   return (
     <>
+    <div className={classes.signinForm}>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center", marginTop: "8%" }}>
         <form>
           <h2>Sign In</h2>
@@ -90,10 +91,11 @@ export default function Signin() {
           </FormControl>
           <br />
           <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-            <Button onClick={handleSubmit} variant='outlined'>Sign In</Button>
+            <Button onClick={handleSubmit} variant='outlined' color='success'>Sign In</Button>
           </FormControl>
         </form>
       </Box>
+      </div>
     </>
   )
 }

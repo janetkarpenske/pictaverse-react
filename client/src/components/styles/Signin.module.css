@@ -1,0 +1,15 @@
+.signinForm {
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 13px #63a7ff;
+        box-shadow: 0 0 13px #63a7ff;
+    margin-left: 32%;
+    margin-right: 32%;
+    margin-top: 10%;
+    padding-bottom: 5%;
+}
+
+.signinForm h2 {
+    color: var(--color-primary-900);
+    font-size: 30px;
+}

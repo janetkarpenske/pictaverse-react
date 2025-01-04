@@ -1,4 +1,5 @@
 import classes from '../components/styles/Home.module.css';
+import globeImg from '../img/globe.png';
 
 export default function HomePage() {
 
@@ -8,6 +9,7 @@ export default function HomePage() {
                 <div className={classes.homeContent}>
                     <h1>Pictaverse</h1>
                     <h3>Share Your Travels</h3>
+                    <br/>
                     <p>
                         Lorem ipsum odor amet, consectetuer adipiscing elit.
                         Bibendum pulvinar pellentesque odio praesent hac ex;
@@ -19,6 +21,9 @@ export default function HomePage() {
                     <div className={classes.btnBox}>
                         <a href="/register">Get Started</a>
                     </div>
+                </div>
+                <div className={classes.homeImg}>
+                    <img src={globeImg}></img>
                 </div>
 
             </section>

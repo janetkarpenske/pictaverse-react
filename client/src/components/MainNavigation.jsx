@@ -56,9 +56,21 @@ function MainNavigation() {
                 )}
                 end
               >
-                <PublicIcon fontSize='large' />
+                <PublicIcon className={classes.icon} fontSize='large' />
               </NavLink>
             </IconButton>
+          </li>
+          <li>
+            <Button variant='text'>
+              <NavLink
+                to="/about"
+                className={({ isActive }) => (
+                  isActive ? classes.active : undefined
+                )}
+              >
+                About
+              </NavLink>
+            </Button>
           </li>
           {!currentUser && <li>
             <Button variant='text'>
@@ -84,18 +96,6 @@ function MainNavigation() {
               </NavLink>
             </Button>
           </li>}
-          <li>
-            <Button variant='text'>
-              <NavLink
-                to="/about"
-                className={({ isActive }) => (
-                  isActive ? classes.active : undefined
-                )}
-              >
-                About
-              </NavLink>
-            </Button>
-          </li>
           {currentUser && <li>
             <Button variant='text'>
               <NavLink
@@ -105,6 +105,18 @@ function MainNavigation() {
                 )}
               >
                 Dashboard
+              </NavLink>
+            </Button>
+          </li>}
+          {currentUser && <li>
+            <Button variant='text'>
+              <NavLink
+                to="/userProfile"
+                className={({ isActive }) => (
+                  isActive ? classes.active : undefined
+                )}
+              >
+                User Profile
               </NavLink>
             </Button>
           </li>}

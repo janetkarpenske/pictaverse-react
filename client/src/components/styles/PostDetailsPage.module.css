@@ -1,47 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Barrio&family=Bungee+Inline&family=Roboto:wght@300;400;700&display=swap');
-
 .postInfo {
     margin-top: 5%;
     margin-left: 25%;
     margin-right: 25%;
-    margin-bottom: 5%;
-    text-align: center;
+    margin-bottom: 3%;
+    text-align: justify;
 }
+
 .postInfo h1 {
-    font-family: "Barrio", serif;
-    font-weight: 400;
-    font-style: normal;
+    text-align: center;
     font-size: 50px;
 }
+
 .postInfo h2 {
     margin-top: 20px;
     font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     font-size: 20px;
+    text-align: center;
 }
+
 .postInfo img {
     border-radius: 5px;
     margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 .postInfo p {
-    margin-top: 20px;
-    text-align: justify;
+    margin-top: 80px;
 }
+
 .postTools {
-    margin-left: 48%;
+    margin-top: 2%;
+    margin-left: 43%;
 }
+
 .postTools button {
     font-size: 16px;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 30px;
-    background-color: var(--color-primary-700);
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: 15px;
+    background-color: var(--color-primary-900);
     color: rgb(255, 255, 255);
     margin-bottom: 5%;
-    border: 1px solid rgb(1, 15, 34);
     border-radius: 0px 10px 0px 10px;
 }
+
 .postTools button:hover {
     background-color: var(--color-primary-800);
     cursor: pointer;
+}
+.postTags {
+    margin-top: 14px;
+}
+.tagChip {
+    background-color: rgb(241, 123, 13);
+    color: white;
+    border-radius: 12px;
+    padding: 2px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-left: 5px;
+}
+.commentSection {
+    border: solid var(--color-primary-700) 1px;
+    padding: 12px;
+    border-radius: 5px;
+    margin-left: 20%;
+    margin-right: 20%;
+    width: 60%;
+    height: 120px;
+    color: var(--color-primary-900);
+    margin-bottom: 3%;
 }
